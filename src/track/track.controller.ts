@@ -20,7 +20,6 @@ export class ClickTrackingController {
   @Post()
   async trackClick(@Req() req: CustomRequest, @Body() clickData: any) {
     const user = req.googleId; // JWT에서 추출된 사용자 정보
-    console.log('req', req);
     console.log('user', user);
     const userData = await this.memoryDBService.getUserData(user);
     console.log('userdata', userData);
