@@ -15,6 +15,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (err || !user) {
       throw new UnauthorizedException();
     }
+    console.log('✅ JWT 인증 성공:', user); // ✅ 디버깅용 로그 추가
     return user;
   }
 }

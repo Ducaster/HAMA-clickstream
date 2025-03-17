@@ -7,6 +7,11 @@ import { Request } from 'express';
 // Request 인터페이스 확장
 interface CustomRequest extends Request {
   googleId: string; // googleId 속성 추가
+  user: {
+    // user 속성 추가
+    userId: string;
+    email: string;
+  };
 }
 
 @Controller('track-click')
@@ -19,6 +24,8 @@ export class ClickTrackingController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async trackClick(@Req() req: CustomRequest, @Body() clickData: any) {
+    console.log('🔍 Track Click Request User:', req.user); // ✅ req.user 디버깅
+    console.log('🔍 Track Click Request Body:', clickData); // 수정: body를 clickData로 변경
     const user = req.googleId; // JWT에서 추출된 사용자 정보
     console.log('user', user);
     const userData = await this.memoryDBService.getUserData(user);

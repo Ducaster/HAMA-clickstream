@@ -26,7 +26,9 @@ export class MemoryDBService {
 
   async getUserData(googleId: string): Promise<any> {
     try {
+      console.log(`🔍 Fetching data for user: user:${googleId}`);
       const userData = await this.redis.get(`user:${googleId}`);
+      console.log(`✅ UserData from MemoryDB:`, userData);
       return userData ? JSON.parse(userData) : null;
     } catch (error) {
       console.error('MemoryDB Fetch Error:', error);
