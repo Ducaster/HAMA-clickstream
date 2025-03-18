@@ -35,8 +35,13 @@ export class ClickTrackingController {
       return { message: 'User data not found' };
     }
 
+    // ✅ `children` 필드가 존재하는지 확인 후 접근
+    if (!userData.children || !Array.isArray(userData.children)) {
+      console.warn('⚠️ User data does not contain a valid `children` array');
+      userData.children = []; // ✅ 기본값으로 빈 배열 설정
+    }
     // 아이 정보 정리
-    const children = userData.additionalInfo.children || [];
+    const children = userData.children || [];
     const babyInfo = children.map((child) => ({
       age: this.calculateAge(child.birthdate),
       gender: child.gender,
