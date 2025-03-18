@@ -1,0 +1,30 @@
+# 1단계: 빌드 단계
+FROM node:21-alpine AS builder
+WORKDIR /app
+
+# 패키지 파일 먼저 복사 후 의존성 설치 (캐시 활용)
+COPY package*.json ./
+RUN npm install
+
+# 소스 코드 전체 복사
+COPY . .
+
+# NestJS 애플리케이션 빌드
+RUN npm run build
+
+# 2단계: 실행 단계 (실행 이미지)
+FROM node:21-alpine
+WORKDIR /app
+
+# 프로덕션 환경에 필요한 의존성만 설치
+COPY package*.json ./
+RUN npm install
+
+# 빌드 결과물 복사
+COPY --from=builder /app/dist ./dist
+
+# 애플리케이션 포트 노출 (예: 3000)
+EXPOSE 3333
+
+# 컨테이너 시작 시 애플리케이션 실행
+CMD ["node", "dist/main.js"]
