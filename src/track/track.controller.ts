@@ -6,11 +6,8 @@ import { Request } from 'express';
 
 // Request 인터페이스 확장
 interface CustomRequest extends Request {
-  googleId: string; // googleId 속성 추가
   user: {
-    // user 속성 추가
     userId: string;
-    email: string;
   };
 }
 
