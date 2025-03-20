@@ -51,7 +51,7 @@ export class ClickTrackingController {
         count: children.length,
         details: babyInfo,
       },
-      product: clickData.product,
+      product: clickData,
       timestamp: new Date().toISOString(),
     };
 
@@ -59,10 +59,10 @@ export class ClickTrackingController {
     const fileName = `clickstream/${Date.now()}-${Math.random()}.json`;
     await this.s3Service.uploadToS3(
       fileName,
-      JSON.stringify(enrichedClickData),
+      JSON.stringify(enrichedClickData), // JSON 문자열로 변환하여 S3에 업로드
     );
 
-    return { message: 'Click data saved with baby info' };
+    return { message: 'Click data saved with product info' };
   }
 
   private calculateAge(birthdate: string): number {
